@@ -10,7 +10,6 @@ export default function Products() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showTable, setShowTable] = useState(true);
 
-
   const inputClass =
     "border-2 border-white-400 rounded-lg px-1 py-1 font-light text-black text-lg m-1";
 
@@ -19,6 +18,12 @@ export default function Products() {
     description: "",
     price: "",
   });
+
+  const toggleForm = () => {
+    setShowForm(!showForm); // Toggles the state to show/hide the form
+    setShowButtons(!showButtons); // Toggles the state to show/hide the form
+    setShowTable(!showTable);
+  };
 
   function handleChange(e) {
     const { id, value } = e.target;
@@ -50,6 +55,8 @@ export default function Products() {
           price: "",
         });
 
+        toggleForm(); // Hide the form
+
         // show user a message that the product was added
         setSuccessMessage("Product added successfully."); // Set success message
       })
@@ -59,12 +66,6 @@ export default function Products() {
         // Handle error - show a message to the user or log the error
       });
   }
-
-  const toggleForm = () => {
-    setShowForm(!showForm); // Toggles the state to show/hide the form
-    setShowButtons(!showButtons); // Toggles the state to show/hide the form
-    setShowTable(!showTable);
-  };
 
   return (
     <Format>
@@ -89,10 +90,10 @@ export default function Products() {
           </div>
         )}
 
-        <div className="flex flex-col mr-3 justify-center min-h-full ">
+        <div className="flex flex-col items-center justify-center mr-3 h-full ">
           {showForm && (
-            <div className="flex flex-col text-white items-center  border-none rounded-lg bg-black border-4 w-full h-3/4 text-3xl mr-3 mb-3">
-              <form className="flex flex-col gap-10 m-10">
+            <div className="flex flex-col text-white items-center  border-none rounded-lg bg-black border-4 w-3/4 text-3xl  mr-3 mb-10">
+              <form className="flex flex-col gap-10 mt-20">
                 <div className="flex flex-col">
                   <label className="mx-1 font-light" htmlFor="productName">
                     Product Name:
@@ -136,9 +137,10 @@ export default function Products() {
                 </div>
                 {/* Add more form fields as needed */}
               </form>
-              {successMessage && <p>{successMessage}</p>}
 
-              <div className="flex mb-1">
+              <div className="text-orange-400"> {successMessage && <p>{successMessage}</p>} </div>
+
+              <div className="flex mb-3 mt-3">
                 <button
                   className=" font-light bg-blue-400 text-white px-4 py-2 rounded-lg m-4"
                   type="submit"
@@ -156,9 +158,7 @@ export default function Products() {
               </div>
             </div>
           )}
-          {showTable && (
-              <Table />
-          )}
+          {showTable && <Table />}
         </div>
       </div>
     </Format>
