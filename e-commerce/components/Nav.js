@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 export default function Nav() {
   const inactiveTab = "flex m-3 pt-2 text-4xl h-14";

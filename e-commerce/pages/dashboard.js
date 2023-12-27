@@ -6,7 +6,7 @@ export default function Dashboard() {
 const { data: session} = useSession();
   return (
     <Format>
-      <p>Hey {session?.user?.name || "Stranger"}!</p>
+      <div className="font-normal">Hey <b>{session?.user?.name || "Stranger"}</b>!</div>
     </Format>
   );
 

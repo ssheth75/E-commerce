@@ -26,12 +26,12 @@ export default function Format({children}) {
   }
 
   return (
-    <div className={"bg-green-500 min-h-screen flex"}>
+    <div className={"bg-black h-full flex"}>
       <Nav />
 
       <div className={"bg-white flex-grow mt-2 mr-2 rounded-lg"}>
         <div className="flex">
-          <div className={"text-4xl font-bold text-black ml-3 mt-3 w-full h-screen"}>
+          <div className={"text-4xl font-bold text-black ml-3 mt-3 mb-3 w-full h-screen"}>
             {children}
           </div>
 
