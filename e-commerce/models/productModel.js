@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const ProductSchema = new Schema({
   productName: { type: String, required: true },
@@ -13,5 +13,3 @@ if (mongoose.models.Product) {
   Product = mongoose.model("Product", ProductSchema);
 }
 export {Product};
-
-// export const Product = model("Product", ProductSchema);

@@ -3,7 +3,11 @@ import {mongooseConnect} from "../../lib/mongoose.js";
 
 export default async function handle(req, res) {
     const {method} = req;
-    await mongooseConnect()
+    await mongooseConnect();
+    if (method === 'GET') {
+        const productDoc = await Product.find({});
+        res.json(productDoc);
+    } 
     if (method === 'POST') {
         const {productName, description, price} = req.body;
         const productDoc = await Product.create({
