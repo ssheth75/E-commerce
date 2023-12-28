@@ -6,7 +6,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function Nav() {
   const inactiveTab = "flex m-3 pt-2 text-4xl h-14";
-  const activeTab = inactiveTab + " bg-white rounded-l-lg text-black w-full ";
+  const activeTab = inactiveTab + " bg-white text-black w-full ";
 
   const page = useRouter();
   let dashboardTab = page.pathname === "/dashboard" ? activeTab : inactiveTab;
@@ -15,7 +15,7 @@ export default function Nav() {
   let ordersTab = page.pathname === "/orders" ? activeTab : inactiveTab;
 
   return (
-    <aside className={"text-white w-1/5 h-screen rounded-lg m-2 font-Alliance"}>
+    <aside className={"text-white w-1/5 h-screen m-2 font-Alliance"}>
       <div className="flex m-3 text-5xl">
         <div className="pt-3">
           <svg
@@ -131,7 +131,7 @@ export default function Nav() {
 
       <button
         className={
-          "w-30 px-4 py-2 border-gray-50 rounded-lg pd-2 ml-3 mt-3 bg-white text-black"
+          "w-30 px-4 py-2 border-gray-50 pd-2 ml-3 mt-3 bg-white text-black"
         }
         onClick={() => signOut()}
       >

@@ -10,32 +10,25 @@ export default function Products() {
   const [showButtons, setShowButtons] = useState(true); // Use state to control visibility
   const [successMessage, setSuccessMessage] = useState("");
   const [showTable, setShowTable] = useState(true);
+  const [showSearch, setShowSearch] = useState(true);
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [input, setInput] = useState({
     productName: "",
     description: "",
     price: "",
   });
-  const rgbValues = { r: 28, g: 30, b: 32 }; // Example RGB values (Red color)
-  const backgroundColor = `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`;
 
-  const fetchProducts = async () => {
-    axios.get("/api/products").then((response) => {
-      setProducts(response.data);
-      //console.log(response.data);
-    });
-  };
-
-  // fetch all product data from the database
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+  // Dom manipulation to show/hide the form
   const toggleForm = () => {
     setShowForm(!showForm); // Toggles the state to show/hide the form
     setShowButtons(!showButtons); // Toggles the state to show/hide the form
     setShowTable(!showTable);
+    setShowSearch(!showSearch);
   };
+
+  ///// Form functionality and POST/FETCH /////
 
   //  Update input values when user types in the form
   function handleChange(e) {
@@ -46,6 +39,19 @@ export default function Products() {
       [id]: value,
     }));
   }
+
+  const fetchProducts = async () => {
+    axios.get("/api/products").then((response) => {
+      setProducts(response.data);
+      setAllProducts(response.data);
+      console.log("permProducts", products);
+    });
+  };
+
+  // fetch all product data from the database
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   //  Submit the form and create a new product in the database
   async function handleSubmit(e) {
@@ -85,6 +91,37 @@ export default function Products() {
       });
   }
 
+  /////// Search functionality ///////
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Execute a search accrording to the search query accross all product names and update products
+  useEffect(() => {
+    // Perform actions whenever searchQuery changes
+
+    let filteredProducts = [];
+    setShowTable(true);
+
+    if (searchQuery === "") {
+      // If search query is empty, show all products
+      setProducts(allProducts);
+      console.log("perm products", allProducts);
+    } else {
+      for (let i = 0; i < allProducts.length; i++) {
+        if (allProducts[i].productName.includes(searchQuery)) {
+          filteredProducts.push(allProducts[i]);
+        }
+      }
+      if (filteredProducts.length === 0) {
+        // If no products are found, show all products
+        setShowTable(false);
+      }
+      setProducts(filteredProducts);
+    }
+  }, [searchQuery]); // This useEffect will trigger whenever searchQuery changes
+
   const inputClass =
     "border-2 border-white-400 rounded-lg px-1 py-1 font-light text-black text-lg m-1 ";
 
@@ -115,13 +152,36 @@ export default function Products() {
         )}
 
         <div className="flex flex-col items-center justify-center mt-10">
-          <SearchBar />
+          {showSearch && <SearchBar onSearch={handleSearch} />}
           {showTable && <Table data={products} />}
         </div>
 
         <div className="flex flex-col items-center justify-center mr-3 h-full ">
           {showForm && (
-            <div className="flex flex-col text-white items-center  border-none rounded-lg bg-black border-4 w-3/4 text-3xl  mr-3 mb-10">
+            <div className="flex flex-col text-white items-center bg-customGray w-3/4 text-3xl mr-3 mb-10 relative">
+              <div className="w-13 text-center absolute top-0 right-0">
+                <button
+                  className="font-light text-white rounded-lg m-4 transition duration-300 transform hover:scale-125"
+                  type="submit"
+                  onClick={toggleForm}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
               <form className="flex flex-col gap-10 mt-20">
                 <div className="flex flex-col">
                   <label className="mx-1 font-light" htmlFor="productName">
@@ -165,21 +225,13 @@ export default function Products() {
                   />
                 </div>
               </form>
-
               <div className="flex mb-3 mt-3">
                 <button
-                  className=" font-light bg-blue-400 text-white px-4 py-2 rounded-lg m-4"
+                  className=" font-light bg-white text-black px-4 pt-2 pb-1 m-4 transition duration-300 transform hover:scale-105"
                   type="submit"
                   onClick={handleSubmit}
                 >
                   Submit
-                </button>
-                <button
-                  className="bg-red-400 font-light text-white px-4 py-2 rounded-lg m-4"
-                  type="submit"
-                  onClick={toggleForm}
-                >
-                  Cancel
                 </button>
               </div>
             </div>

@@ -6,7 +6,7 @@ const TableRow = ({ rowData, isEven }) => {
     "px-6 py-3 whitespace-no-wrap text-base leading-5 text-gray-900 ";
 
 const descriptionStyle = {
-    maxHeight: "5rem", // Set your desired max height here (e.g., 5rem)
+    maxHeight: "10rem", // Set your desired max height here (e.g., 5rem)
     overflowY: "auto",
     minWidth: "40rem",
     wordWrap: "break-word", // Allow word wrapping within the max width
@@ -27,7 +27,7 @@ const descriptionStyle = {
 const Table = ({ data }) => {
   const headerStyle =
     "px-6 py-4 bg-gray-100 text-left text-lg font-medium text-gray-600 uppercase tracking-wider"; // Updated header styles
-  console.log(data);
+    
 
   return (
     <div className="">
