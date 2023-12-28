@@ -2,29 +2,41 @@ import React from "react";
 
 const TableRow = ({ rowData, isEven }) => {
   const rowStyle = isEven ? "bg-gray-200" : "bg-white";
-  const style = "px-6 py-2 whitespace-no-wrap"
+  const style =
+    "px-6 py-3 whitespace-no-wrap text-base leading-5 text-gray-900 ";
+
+const descriptionStyle = {
+    maxHeight: "5rem", // Set your desired max height here (e.g., 5rem)
+    overflowY: "auto",
+    minWidth: "40rem",
+    wordWrap: "break-word", // Allow word wrapping within the max width
+  };
+
   return (
     <tr className={rowStyle}>
-      <td className={style}>{rowData.productName}</td>
-      <td className={style}>{rowData.description}</td>
+      <td className={style + "font-semibold text-lg"}>{rowData.productName}</td>
+      <td className={style}>
+        <p style={descriptionStyle}>{rowData.description}</p>
+      </td>
       <td className={style}>{rowData.price}</td>
     </tr>
   );
 };
 
+
 const Table = ({ data }) => {
-  const headerStyle = "px-6 py-3 bg-gray-100 w-1/2 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider";
+  const headerStyle =
+    "px-6 py-4 bg-gray-100 text-left text-lg font-medium text-gray-600 uppercase tracking-wider"; // Updated header styles
   console.log(data);
 
-
   return (
-    <div className="flex justify-center items-center w-full">
-      <table className="border-4 border-black m-4 w-3/4">
+    <div className="">
+      <table className="border-none border-black m-4 drop-shadow-2xl">
         <thead>
-          <tr>
-            <th className={headerStyle}>Name</th>
-            <th className={headerStyle}>Description</th>
-            <th className={headerStyle}>Price</th>
+          <tr >
+            <th className={headerStyle} style={{ width: '200px', height: '50px' }}>Name</th>
+            <th className={headerStyle} style={{ width: '200px', height: '50px' }}>Description</th>
+            <th className={headerStyle} style={{ width: '200px', height: '50px' }}>Price (USD)</th>
             {/* Add more table headers as needed */}
           </tr>
         </thead>

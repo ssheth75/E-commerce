@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face{
+    font-family: 'Alliance';
+    src: url('../Fonts/Alliance No.2 Regular.otf') format('opentype');
+
+}

@@ -2,6 +2,7 @@ import Format from "@/components/format";
 import React, { useState } from "react";
 import axios from "axios";
 import Table from "@/components/productTable";
+import SearchBar from "@/components/searchBar";
 import { useEffect } from "react";
 
 export default function Products() {
@@ -15,15 +16,20 @@ export default function Products() {
     description: "",
     price: "",
   });
+  const rgbValues = { r: 28, g: 30, b: 32 }; // Example RGB values (Red color)
+  const backgroundColor = `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`;
 
-  // fetch all product data from the database
-  useEffect(() => {
+  const fetchProducts = async () => {
     axios.get("/api/products").then((response) => {
       setProducts(response.data);
       //console.log(response.data);
     });
-  }, []);
+  };
 
+  // fetch all product data from the database
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const toggleForm = () => {
     setShowForm(!showForm); // Toggles the state to show/hide the form
@@ -55,7 +61,7 @@ export default function Products() {
       .post("/api/products", newProduct)
       .then((response) => {
         console.log("Product added successfully:", response.data);
-        
+
         // Handle success - clear the form
         setInput({
           productName: "",
@@ -64,6 +70,8 @@ export default function Products() {
         });
 
         toggleForm(); // Hide the form
+
+        fetchProducts();
 
         // show user a message that the product was added
         setSuccessMessage("Product added successfully"); // Set success message
@@ -74,22 +82,20 @@ export default function Products() {
       .catch((error) => {
         // Handle error - show a message to the user or log the error
         console.error("Error creating product:", error);
-
-        
       });
   }
 
   const inputClass =
-    "border-2 border-white-400 rounded-lg px-1 py-1 font-light text-black text-lg m-1";
+    "border-2 border-white-400 rounded-lg px-1 py-1 font-light text-black text-lg m-1 ";
 
   return (
     <Format>
       <div className="flex flex-col h-full gap-4">
         {showButtons && (
-          <div className="flex flex-row">
+          <div className="flex flex-row drop-shadow-2xl">
             <button
               className={
-                "bg-blue-400 font-light text-white w-30 px-4 py-2 border-gray-50 rounded-lg pd-2 ml-3 mt-3"
+                "font-light text-black w-30 px-4 pt-2 pd-2 ml-3 mt-3 border-gray-500 border-2 transition duration-300 transform hover:bg-customGray hover:text-white hover:scale-105"
               }
               onClick={toggleForm}
             >
@@ -97,7 +103,7 @@ export default function Products() {
             </button>
             <button
               className={
-                "bg-red-400 font-light text-white w-30 px-4 py-2 border-gray-50 rounded-lg pd-2 ml-3 mt-3"
+                "font-light text-black w-30 px-4 pt-2 border-gray-500 border-2 pd-2 ml-3 mt-3 transition duration-300 transform hover:bg-customGray hover:text-white hover:scale-105"
               }
             >
               Edit
@@ -107,6 +113,11 @@ export default function Products() {
             </div>
           </div>
         )}
+
+        <div className="flex flex-col items-center justify-center mt-10">
+          <SearchBar />
+          {showTable && <Table data={products} />}
+        </div>
 
         <div className="flex flex-col items-center justify-center mr-3 h-full ">
           {showForm && (
@@ -173,7 +184,6 @@ export default function Products() {
               </div>
             </div>
           )}
-          {showTable && <Table data={products} />}
         </div>
       </div>
     </Format>
